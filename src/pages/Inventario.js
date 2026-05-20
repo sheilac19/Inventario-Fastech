@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../App.css'; 
 
-// 🔥 CORRECCIÓN: Ahora el componente recibe productos y setProductos como PROPS desde el componente padre
+// 🔥 COMPONENTE INTEGRADO: Recibe productos y setProductos como PROPS y sincroniza con MariaDB
 function Inventario({ productos = [], setProductos }) {
     const [nombre, setNombre] = useState('');
     const [precio, setPrecio] = useState('');
@@ -21,9 +21,12 @@ function Inventario({ productos = [], setProductos }) {
         }, 5000);
     };
 
-    const handleGuardarProducto = (e) => {
+    // 🔥 MANEJADOR DE PERSISTENCIA (GUARDAR / EDITAR) EN SERVER-BACKEND
+    const handleGuardarProducto = async (e) => {
         e.preventDefault();
-        if (!nombre.trim() || !precio.toString().trim() || !stock.toString().trim()) {
+        
+        // 1. VALIDACIÓN: Campos Vacíos (Ahora se ejecuta libremente sin el bloqueo del navegador)
+        if (!nombre.trim() || precio === null || precio === undefined || precio === '' || stock === null || stock === undefined || stock === '') {
             lanzarAlerta("Error de validación: Todos los campos del formulario son estrictamente obligatorios.");
             return;
         }
@@ -31,51 +34,106 @@ function Inventario({ productos = [], setProductos }) {
         const precioNum = parseFloat(precio);
         const stockNum = parseInt(stock, 10);
 
-        if (precioNum <= 0) {
+        // 2. VALIDACIÓN: Precios menores o iguales a 0
+        if (isNaN(precioNum) || precioNum <= 0) {
             lanzarAlerta("Operación rechazada: El precio asignado al producto debe ser estrictamente mayor a 0.");
             return;
         }
 
-        if (stockNum < 0) {
+        // 3. VALIDACIÓN: Stocks negativos
+        if (isNaN(stockNum) || stockNum < 0) {
             lanzarAlerta("Operación rechazada: El stock de inventario ingresado no puede ser un número negativo.");
             return;
         }
 
         if (idEdicion !== null) {
-            // Actualización de producto existente
-            const productosActualizados = productos.map((prod) => {
-                if (prod.id === idEdicion) {
-                    return { ...prod, nombre: nombre.trim(), precio: precioNum.toFixed(2), stock: stockNum };
-                }
-                return prod;
-            });
-            setProductos(productosActualizados);
-            setIdEdicion(null);
-            lanzarAlerta("Sistema Fastech: El producto ha sido actualizado exitosamente en el inventario.", "exito");
-        } else {
-            // 🔥 ADICIÓN CORREGIDA: Se inserta al principio del arreglo global
-            const nuevoProducto = { 
-                id: Date.now(), 
-                nombre: nombre.trim(), 
-                precio: precioNum.toFixed(2), 
-                stock: stockNum,
-                // Imagen tecnológica temporal por defecto para la tienda
-                imagen: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?q=80&w=1770&auto=format&fit=crop" 
+            // ==========================================
+            // MODO EDICIÓN: Petición PUT al Servidor
+            // ==========================================
+            const productoEditado = {
+                nombre: nombre.trim(),
+                precio: precioNum,
+                stock: stockNum
             };
-            setProductos([nuevoProducto, ...productos]);
-            lanzarAlerta("Sistema Fastech: Nuevo producto registrado y almacenado correctamente.", "exito");
-        }
 
-        setNombre('');
-        setPrecio('');
-        setStock('');
+            try {
+                const response = await fetch(`http://localhost:5000/api/productos/${idEdicion}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(productoEditado)
+                });
+
+                if (response.ok) {
+                    const productosActualizados = productos.map((prod) => {
+                        if (prod.id === idEdicion) {
+                            return { 
+                                ...prod, 
+                                nombre: nombre.trim(), 
+                                precio: precioNum.toFixed(2), 
+                                stock: stockNum 
+                            };
+                        }
+                        return prod;
+                    });
+                    setProductos(productosActualizados);
+                    setIdEdicion(null);
+                    lanzarAlerta("Sistema Fastech: El producto ha sido actualizado exitosamente en la base de datos.", "exito");
+                    
+                    setNombre(''); setPrecio(''); setStock('');
+                } else {
+                    lanzarAlerta("Error: No se pudo actualizar el registro en la base de datos MySQL.");
+                }
+            } catch (error) {
+                console.error("Error en la conexión fetch de actualización:", error);
+                lanzarAlerta("Error de comunicación: Falla al conectar con el servidor backend.");
+            }
+        } else {
+            // ==========================================
+            // MODO CREACIÓN: Petición POST al Servidor
+            // ==========================================
+            const nuevoProducto = { 
+                nombre: nombre.trim(), 
+                precio: precioNum, 
+                stock: stockNum
+            };
+
+            try {
+                const response = await fetch('http://localhost:5000/api/productos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(nuevoProducto)
+                });
+
+                if (response.ok) {
+                    const resultadoDB = await response.json();
+                    
+                    const productoFormateado = {
+                        id: resultadoDB.id,
+                        nombre: resultadoDB.nombre,
+                        precio: resultadoDB.precio,
+                        stock: resultadoDB.stock,
+                        imagen: resultadoDB.imagen // Mapeo de la imagen
+                    };
+
+                    setProductos([productoFormateado, ...productos]);
+                    lanzarAlerta("Sistema Fastech: Nuevo producto registrado y almacenado correctamente en MySQL.", "exito");
+                    
+                    setNombre(''); setPrecio(''); setStock('');
+                } else {
+                    lanzarAlerta("Error: La base de datos rechazó el almacenamiento del producto.");
+                }
+            } catch (error) {
+                console.error("Error al guardar:", error);
+                lanzarAlerta("Error de comunicación: No se pudo establecer conexión con el backend.");
+            }
+        }
     };
 
     const iniciarEdicion = (producto) => {
         setIdEdicion(producto.id);
         setNombre(producto.nombre);
-        setPrecio(producto.precio);
-        setStock(producto.stock);
+        setPrecio(parseFloat(producto.precio));
+        setStock(parseInt(producto.stock, 10));
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -84,15 +142,28 @@ function Inventario({ productos = [], setProductos }) {
         setShowConfirmDelete(true);
     };
 
-    const ejecutarEliminacionReal = () => {
+    const ejecutarEliminacionReal = async () => {
         if (productoAEliminar) {
-            const listaFiltrada = productos.filter(prod => prod.id !== productoAEliminar.id);
-            setProductos(listaFiltrada);
-            lanzarAlerta(`Sistema Fastech: El producto "${productoAEliminar.nombre}" ha sido removido del registro.`, "exito");
-            
-            if (idEdicion === productoAEliminar.id) {
-                setIdEdicion(null);
-                setNombre(''); setPrecio(''); setStock('');
+            try {
+                const response = await fetch(`http://localhost:5000/api/productos/${productoAEliminar.id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    const listaFiltrada = productos.filter(prod => prod.id !== productoAEliminar.id);
+                    setProductos(listaFiltrada);
+                    lanzarAlerta(`Sistema Fastech: El producto "${productoAEliminar.nombre}" ha sido removido del servidor y la DB.`, "exito");
+                    
+                    if (idEdicion === productoAEliminar.id) {
+                        setIdEdicion(null);
+                        setNombre(''); setPrecio(''); setStock('');
+                    }
+                } else {
+                    lanzarAlerta("Error: No se pudo completar la eliminación en el servidor.");
+                }
+            } catch (error) {
+                console.error("Error al eliminar:", error);
+                lanzarAlerta("Error de comunicación: El servidor remoto no responde.");
             }
 
             setShowConfirmDelete(false);
@@ -105,7 +176,6 @@ function Inventario({ productos = [], setProductos }) {
         setNombre(''); setPrecio(''); setStock('');
     };
 
-    // Filtrado en tiempo real basado en el arreglo que viene de las props
     const productosFiltrados = productos.filter((producto) => 
         producto.nombre.toLowerCase().includes(busqueda.toLowerCase())
     );
@@ -158,18 +228,34 @@ function Inventario({ productos = [], setProductos }) {
                     
                     <div className="inventory-form-card">
                         <h3>{idEdicion !== null ? '✏️ Modo Edición Activo' : '🛠️ Registrar Nuevo Artículo'}</h3>
-                        <form className="inventory-grid-form" onSubmit={handleGuardarProducto}>
+                        <form className="inventory-grid-form" onSubmit={handleGuardarProducto} noValidate>
                             <div className="input-field-group">
                                 <label>Nombre del Producto</label>
-                                <input type="text" placeholder="Ej. Teclado Mecánico RGB" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+                                <input 
+                                    type="text" 
+                                    placeholder="Ej. Teclado Mecánico RGB" 
+                                    value={nombre} 
+                                    onChange={(e) => setNombre(e.target.value)} 
+                                />
                             </div>
                             <div className="input-field-group">
                                 <label>Precio de Venta ($)</label>
-                                <input type="number" step="0.01" placeholder="0.00" value={precio} onChange={(e) => setPrecio(e.target.value)} />
+                                <input 
+                                    type="number" 
+                                    step="0.01" 
+                                    placeholder="0.00" 
+                                    value={precio} 
+                                    onChange={(e) => setPrecio(e.target.value)} 
+                                />
                             </div>
                             <div className="input-field-group">
                                 <label>Unidades en Stock</label>
-                                <input type="number" placeholder="0" value={stock} onChange={(e) => setStock(e.target.value)} />
+                                <input 
+                                    type="number" 
+                                    placeholder="0" 
+                                    value={stock} 
+                                    onChange={(e) => setStock(e.target.value)} 
+                                />
                             </div>
                             
                             <div className="form-action-buttons">
@@ -184,40 +270,69 @@ function Inventario({ productos = [], setProductos }) {
                     </div>
                 </div>
 
-                {/* Tabla de Inventario de Alto Rendimiento */}
+                {/* Tabla de Inventario Unificada con Imágenes Incorporadas */}
                 <div className="table-responsive-wrapper">
-                    <table className="fastech-premium-table">
+                    <table className="fastech-premium-table" style={{ width: '100%', tableLayout: 'fixed', borderCollapse: 'collapse' }}>
                         <thead>
                             <tr>
-                                <th>PRODUCTO</th>
-                                <th className="text-center">PRECIO</th>
-                                <th className="text-center">STOCK</th>
-                                <th className="text-right">ACCIONES</th>
+                                <th style={{ width: '45%', textAlign: 'left', padding: '16px 20px' }}>PRODUCTO</th>
+                                <th style={{ width: '15%', textAlign: 'center', padding: '16px 20px' }}>PRECIO</th>
+                                <th style={{ width: '15%', textAlign: 'center', padding: '16px 20px' }}>STOCK</th>
+                                <th style={{ width: '25%', textAlign: 'center', padding: '16px 20px' }}>ACCIONES</th>
                             </tr>
                         </thead>
                         <tbody>
                             {productosFiltrados.length > 0 ? (
                                 productosFiltrados.map((producto) => (
                                     <tr key={producto.id}>
-                                        <td className="product-cell-name">
-                                            <strong>{producto.nombre}</strong>
-                                            <span className="product-id-sub">ID: #{producto.id.toString().slice(-6)}</span>
+                                        <td style={{ width: '45%', padding: '16px 20px', verticalAlign: 'middle' }}>
+                                            <div className="product-cell-container" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                                <div className="product-table-img-wrapper" style={{ width: '42px', height: '42px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0, border: '1px solid #334155' }}>
+                                                    <img 
+                                                        src={producto.imagen || 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=100'} 
+                                                        alt={producto.nombre} 
+                                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                                        onError={(e) => {
+                                                            e.target.src = 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=100';
+                                                        }}
+                                                    />
+                                                </div>
+                                                <div className="product-cell-name" style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                                    <strong style={{ color: '#ffffff', fontSize: '14px' }}>{producto.nombre}</strong>
+                                                    <span className="product-id-sub" style={{ color: '#64748b', fontSize: '11px' }}>ID: #{producto.id.toString().slice(-6)}</span>
+                                                </div>
+                                            </div>
                                         </td>
-                                        <td className="text-center price-cell-color">${producto.precio}</td>
-                                        <td className="text-center">
-                                            <span className={`stock-status-indicator ${producto.stock > 10 ? 'stock-ok' : 'stock-low'}`}>
-                                                {producto.stock} uds
+                                        
+                                        <td className="price-cell-color" style={{ width: '15%', padding: '16px 20px', verticalAlign: 'middle', textAlign: 'center' }}>
+                                            ${producto.precio}
+                                        </td>
+                                        
+                                        <td style={{ width: '15%', padding: '16px 20px', verticalAlign: 'middle', textAlign: 'center' }}>
+                                            <span className="stock-status-num" style={{
+                                                display: 'inline-block',
+                                                padding: '4px 12px',
+                                                borderRadius: '20px',
+                                                fontSize: '0.85rem',
+                                                fontWeight: '600',
+                                                backgroundColor: parseInt(producto.stock, 10) > 10 ? '#10b981' : '#ef4444',
+                                                color: '#ffffff'
+                                            }}>
+                                                {parseInt(producto.stock, 10)} uds
                                             </span>
                                         </td>
-                                        <td className="text-right actions-cell-gap">
-                                            <button className="table-btn-edit" onClick={() => iniciarEdicion(producto)}>✏️ Editar</button>
-                                            <button className="table-btn-delete" onClick={() => solicitarEliminacion(producto)}>🗑️ Eliminar</button>
+
+                                        <td style={{ width: '25%', padding: '16px 20px', verticalAlign: 'middle', textAlign: 'center' }}>
+                                            <div className="actions-cell-gap" style={{ display: 'flex', gap: '8px', justifyContent: 'center', alignItems: 'center' }}>
+                                                <button className="table-btn-edit" onClick={() => iniciarEdicion(producto)}>✏️ Editar</button>
+                                                <button className="table-btn-delete" onClick={() => solicitarEliminacion(producto)}>🗑️ Eliminar</button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="4" className="empty-table-text">
+                                    <td colSpan="4" className="empty-table-text" style={{ textAlign: 'center', color: '#64748b', padding: '40px' }}>
                                         No se encontraron productos que coincidan con su criterio de búsqueda.
                                     </td>
                                 </tr>
