@@ -5,7 +5,7 @@ Fastech es una solución integral de software diseñada para la administración 
 
 ---
 
-## 📸 FUncionamiento del Sistema
+## 📸 Funcionamiento del Sistema
 
 Aquí puedes visualizar el diseño y la funcionalidad del sistema:
 
