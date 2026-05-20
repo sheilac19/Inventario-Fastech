@@ -1,70 +1,62 @@
-# Getting Started with Create React App
+# 🚀 Fastech - Sistema de Gestión Empresarial (ERP)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Fastech es una solución integral de software diseñada para la administración y control de inventarios empresariales. Este sistema centraliza la gestión de productos, permitiendo a los administradores mantener un catálogo actualizado, realizar operaciones de mantenimiento (CRUD) y obtener una visión clara del stock disponible con una interfaz moderna y responsiva.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 📸 FUncionamiento del Sistema
 
-### `npm start`
+Aquí puedes visualizar el diseño y la funcionalidad del sistema:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 1. Login de sesion (Administradores - Usuarios)
+*Acceso seguro y autenticado para usuarios y administradores.*
+![Login](public/img/login.png)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 2. Panel de Inicio Administrador
+*Vista de control central con acceso rápido a todas las funcionalidades.*
+![Dashboard Admin](public/img/dashboard%20admin.png)
 
-### `npm test`
+### 3. Gestión de Inventario (Administración)
+*Interfaz para el control total de productos, con edición y eliminación en tiempo real.*
+![Gestión de Inventario](public/img/inventario.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 4. Panel de Inicio Usuario 
+*Interfaz intuitiva para la exploración de artículos.*
+![Dashboard Usuario](public/img/dashboard%20usuario.png)
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 5. Historial de Pedidos Realizados
+*Registro detallado de transacciones anteriores para trazabilidad.*
+![Historial](public/img/historial.png)
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🛠️ Especificaciones Técnicas
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Arquitectura
+El proyecto sigue un patrón **Cliente-Servidor**:
+* **Frontend:** Desarrollado en **React.js**. Utiliza hooks (`useState`, `useEffect`) para la manipulación de estados y una comunicación fluida con la API.
+* **Backend:** Servidor en **Node.js** con **Express**, gestionando las peticiones HTTP y la lógica de negocio.
+* **Base de Datos:** **MariaDB/MySQL**, donde reside toda la persistencia de datos (productos, precios y stock).
 
-### `npm run eject`
+### Flujo de Datos
+El sistema utiliza peticiones asíncronas (`fetch` / `async-await`) para asegurar que la interfaz de usuario no se bloquee mientras se procesan los datos en el servidor, garantizando una experiencia de usuario rápida y fluida.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🌟 Funcionalidades Clave
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+* **CRUD Completo:** Creación, Lectura, Actualización y Eliminación de productos con validaciones de seguridad.
+* **Validación de Datos:** Sistema de alertas personalizadas para evitar errores de entrada (precios negativos, campos vacíos, etc.).
+* **Diseño UI/UX "Dark Mode":** Estilos CSS enfocados en la legibilidad y la estética profesional, utilizando efectos de *blur* y *glassmorphism*.
+* **Confirmación de Seguridad:** Ventanas modales integradas antes de realizar operaciones destructivas (borrado de datos), 
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## ⚡ Características Principales
+* **Gestión de Stock Dinámica:** Actualización en tiempo real con alertas de validación para prevenir errores de inventario.
+* **UX/UI Premium:** Interfaz oscura, elegante, con sombras y animaciones sutiles.
+* **Seguridad de Datos:** Validación estricta en el formulario (campos obligatorios, precios > 0, stock no negativo).
+* **Búsqueda Inteligente:** Filtros en tiempo real para encontrar productos instantáneamente.
+* **Sistema de Alertas:** Notificaciones personalizadas (éxito/error) que mejoran la comunicación con el administrador.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
