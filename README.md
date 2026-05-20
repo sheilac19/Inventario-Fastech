@@ -1,3 +1,4 @@
+ HEAD
 # 🚀 Fastech - Sistema de Gestión Empresarial (ERP)
 
 Fastech es una solución integral de software diseñada para la administración y control de inventarios empresariales. Este sistema centraliza la gestión de productos, permitiendo a los administradores mantener un catálogo actualizado, realizar operaciones de mantenimiento (CRUD) y obtener una visión clara del stock disponible con una interfaz moderna y responsiva.
@@ -60,3 +61,4 @@ El sistema utiliza peticiones asíncronas (`fetch` / `async-await`) para asegura
 * **Sistema de Alertas:** Notificaciones personalizadas (éxito/error) que mejoran la comunicación con el administrador.
 
 ---
+
