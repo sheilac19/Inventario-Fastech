@@ -1,93 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../App.css'; 
 
-function Dashboard() {
-    const [productos, setProductos] = useState([
-        {
-            id: 1,
-            nombre: "Laptop Workstation Pro",
-            precio: "1450.00",
-            imagen: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1926&auto=format&fit=crop",
-            descripcion: "Procesador de última generación de 14 núcleos, 32GB de memoria RAM DDR5 y 1TB SSD NVMe. Ideal para desarrollo de software pesado, diseño 3D y entornos virtuales de alto rendimiento."
-        },
-        {
-            id: 2,
-            nombre: "Teclado Mecánico RGB",
-            precio: "89.99",
-            imagen: "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?q=80&w=1780&auto=format&fit=crop",
-            descripcion: "Switches mecánicos personalizados de alta durabilidad, retroiluminación RGB por tecla configurable por software y distribución ISO."
-        },
-        {
-            id: 3,
-            nombre: "Mouse Gamer Ultra",
-            precio: "55.00",
-            imagen: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?q=80&w=1965&auto=format&fit=crop",
-            descripcion: "Sensor óptico de alta precisión con hasta 16,000 DPI ajustables, switches mecánicos de respuesta inmediata."
-        },
-        {
-            id: 4,
-            nombre: "Monitor Curvo 32\"",
-            precio: "420.00",
-            imagen: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=2070&auto=format&fit=crop",
-            descripcion: "Pantalla curva de 32 pulgadas con resolución Quad HD (2K), tasa de refresco de 165Hz."
-        },
-        {
-            id: 5,
-            nombre: "Audífonos Studio",
-            precio: "180.00",
-            imagen: "https://images.unsplash.com/photo-1484704849700-f032a568e944?q=80&w=2070&auto=format&fit=crop",
-            descripcion: "Audio de alta resolución con cancelación activa de ruido (ANC)."
-        },
-        {
-            id: 6,
-            nombre: "Silla Pro Gaming",
-            precio: "299.00",
-            imagen: "https://images.unsplash.com/photo-1598550476439-6847785fce6e?q=80&w=1770&auto=format&fit=crop",
-            descripcion: "Diseño ergonómico con soporte lumbar y cervical ajustable. Reclinación de hasta 180 grados."
-        },
-        {
-            id: 7,
-            nombre: "Micrófono Condensador USB",
-            precio: "125.00",
-            imagen: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=1770&auto=format&fit=crop",
-            descripcion: "Patrón de captación cardioide ideal para streaming y grabación de voz."
-        },
-        {
-            id: 8,
-            nombre: "Cámara Web 4K Ultra",
-            precio: "95.00",
-            imagen: "https://images.unsplash.com/photo-1603184017968-953f59cd2e37?q=80&w=1770&auto=format&fit=crop",
-            descripcion: "Resolución Ultra HD a 30 FPS con corrección automática de iluminación difusa."
-        },
-        {
-            id: 9,
-            nombre: "Disco Duro Externo 2TB",
-            precio: "75.00",
-            imagen: "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=1770&auto=format&fit=crop",
-            descripcion: "Almacenamiento masivo portátil con conexión USB 3.2 de alta velocidad."
-        },
-        {
-            id: 10,
-            nombre: "Router Wi-Fi 6 Mesh",
-            precio: "140.00",
-            imagen: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=1770&auto=format&fit=crop",
-            descripcion: "Tecnología de red de doble banda con velocidades de hasta 3000 Mbps."
-        },
-        {
-            id: 11,
-            nombre: "Tarjeta Gráfica RTX 4060",
-            precio: "385.00",
-            imagen: "https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=1770&auto=format&fit=crop",
-            descripcion: "8GB de memoria GDDR6, arquitectura Ada Lovelace y soporte completo para Ray Tracing."
-        },
-        {
-            id: 12,
-            nombre: "Gabinete ATX Premium",
-            precio: "110.00",
-            imagen: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?q=80&w=1770&auto=format&fit=crop",
-            descripcion: "Chasis con panel lateral de vidrio templado, excelente sistema de gestión de cables."
-        }
-    ]);
+// 🔥 CORRECCIÓN: Ahora el Dashboard recibe la lista sincronizada por Props
+function Dashboard({ productos = [], setProductos }) {
+    
+    // 🗑️ AQUÍ YA NO DECLARAS EL APARTADO DE: const [productos, setProductos] = useState([...])
+    // ¡Bórralo para que no haga conflicto con las props!
 
     const [nombre, setNombre] = useState('');
     const [precio, setPrecio] = useState('');
@@ -97,9 +15,17 @@ function Dashboard() {
     const [showModal, setShowModal] = useState(false);
     const [alerta, setAlerta] = useState({ mostrar: false, mensaje: '', tipo: '' });
 
-    // ⭐ NUEVOS ESTADOS: Para controlar el cuadro de confirmación formal
     const [showConfirmDelete, setShowConfirmDelete] = useState(false);
     const [productoAEliminar, setProductoAEliminar] = useState(null);
+
+    // Carrito, Pedidos e Intercambio de Vistas
+    const [carrito, setCarrito] = useState([]);
+    const [pedidos, setPedidos] = useState(JSON.parse(localStorage.getItem('fastech_pedidos') || '[]'));
+    const [vistaActual, setVistaActual] = useState('tienda'); 
+    const [showCartDropdown, setShowCartDropdown] = useState(false);
+
+    const userRole = localStorage.getItem('userRole') || 'usuario';
+
 
     const lanzarAlerta = (mensaje, tipo = 'error') => {
         setAlerta({ mostrar: true, mensaje, tipo });
@@ -118,14 +44,61 @@ function Dashboard() {
         setSelectedProducto(null);
     };
 
-    // ⭐ PASO 1: En lugar de eliminar directo, abre el modal formal
+    // 🛒 FUNCIONES DEL CARRITO Y CLIENTE
+    const agregarAlCarrito = (producto) => {
+        setCarrito([...carrito, producto]);
+        lanzarAlerta(`"${producto.nombre}" se agregó al carrito.`, "exito");
+    };
+
+    const eliminarDelCarrito = (indexEliminar) => {
+        const nuevoCarrito = carrito.filter((_, index) => index !== indexEliminar);
+        setCarrito(nuevoCarrito);
+    };
+
+    const calcularTotal = () => {
+        return carrito.reduce((sum, p) => sum + parseFloat(p.precio), 0).toFixed(2);
+    };
+
+    const procesarPago = () => {
+        if (carrito.length === 0) {
+            lanzarAlerta("El carrito está vacío.");
+            return;
+        }
+
+        // Crear estructura de un nuevo pedido formal
+        const nuevoPedido = {
+            id: Math.floor(Math.random() * 90000) + 10000,
+            fecha: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+            articulos: [...carrito],
+            total: calcularTotal()
+        };
+
+        const listaPedidosActualizada = [nuevoPedido, ...pedidos];
+        setPedidos(listaPedidosActualizada);
+        localStorage.setItem('fastech_pedidos', JSON.stringify(listaPedidosActualizada));
+        
+        // Limpiar el flujo
+        setCarrito([]);
+        setShowCartDropdown(false);
+        lanzarAlerta("¡Pago procesado con éxito! Tu pedido ha sido registrado.", "exito");
+        setVistaActual('pedidos'); // Te redirige automáticamente a ver tus compras
+    };
+
+    // 🔒 BLOQUEOS LÓGICOS DE ADMINISTRACIÓN
     const solicitarEliminacion = (producto) => {
+        if (userRole !== 'admin') {
+            lanzarAlerta("Operación rechazada: No posees credenciales administrativas.");
+            return;
+        }
         setProductoAEliminar(producto);
         setShowConfirmDelete(true);
     };
 
-    // ⭐ PASO 2: Confirmación formal ejecutada por el usuario
     const ejecutarEliminacionReal = () => {
+        if (userRole !== 'admin') {
+            lanzarAlerta("Operación rechazada: Acción restringida de seguridad.");
+            return;
+        }
         if (productoAEliminar) {
             const listaFiltrada = productos.filter(prod => prod.id !== productoAEliminar.id);
             setProductos(listaFiltrada);
@@ -133,13 +106,16 @@ function Dashboard() {
             
             if (idEdicion === productoAEliminar.id) cancelarEdicion();
             
-            // Cerrar y limpiar estados
             setShowConfirmDelete(false);
             setProductoAEliminar(null);
         }
     };
 
     const iniciarEdicion = (producto) => {
+        if (userRole !== 'admin') {
+            lanzarAlerta("Operación rechazada: No posees credenciales administrativas.");
+            return;
+        }
         setIdEdicion(producto.id);
         setNombre(producto.nombre);
         setPrecio(producto.precio);
@@ -148,6 +124,10 @@ function Dashboard() {
 
     const handleActualizarProducto = (e) => {
         e.preventDefault();
+        if (userRole !== 'admin') {
+            lanzarAlerta("Operación rechazada.");
+            return;
+        }
         if (!nombre.trim() || !precio.toString().trim()) {
             lanzarAlerta("Error de validación: Todos los campos modificados son estrictamente obligatorios.");
             return;
@@ -182,25 +162,83 @@ function Dashboard() {
         <nav className="main-navbar">
           <div className="navbar-logo">FASTECH</div>
           <div className="navbar-menu-links">
-            <a href="/dashboard">🏠 Inicio</a>
-            <a href="/inventario">📦 Gestión de Inventario</a>
-            <a href="/" onClick={() => localStorage.clear()}>🚪 Salir</a>
+            <button 
+                className={`nav-link-btn ${vistaActual === 'tienda' ? 'active' : ''}`} 
+                onClick={() => { setVistaActual('tienda'); setShowCartDropdown(false); }}
+            >
+                🏠 Inicio
+            </button>
+            
+            {/* Solo clientes ven la sección de "Mis Pedidos" */}
+            {userRole !== 'admin' && (
+                <button 
+                    className={`nav-link-btn ${vistaActual === 'pedidos' ? 'active' : ''}`} 
+                    onClick={() => { setVistaActual('pedidos'); setShowCartDropdown(false); }}
+                >
+                    📋 Mis Pedidos <span className="cart-badge-count">{pedidos.length}</span>
+                </button>
+            )}
+
+            {userRole === 'admin' && (
+                <a href="/inventario" className="nav-link-btn">📦 Gestión de Inventario</a>
+            )}
+            
+            {/* Carrito de Compras Desplegable en el menú (Solo para clientes) */}
+            {userRole !== 'admin' && (
+                <div className="cart-container-menu">
+                    <button className="nav-link-btn" onClick={() => setShowCartDropdown(!showCartDropdown)}>
+                        🛒 Carrito <span className="cart-badge-count">{carrito.length}</span>
+                    </button>
+                    
+                    {showCartDropdown && (
+                        <div className="cart-dropdown-box">
+                            <h4>Tu Carrito</h4>
+                            {carrito.length === 0 ? (
+                                <p className="empty-cart-text">El carrito está vacío</p>
+                            ) : (
+                                <>
+                                    <div className="cart-items-scroll">
+                                        {carrito.map((item, idx) => (
+                                            <div className="cart-dropdown-item" key={idx}>
+                                                <span>{item.nombre}</span>
+                                                <strong>${item.precio}</strong>
+                                                <button className="btn-remove-item" onClick={() => eliminarDelCarrito(idx)}>&times;</button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="cart-dropdown-footer">
+                                        <div className="total-row">
+                                            <span>Total:</span>
+                                            <strong>${calcularTotal()}</strong>
+                                        </div>
+                                        <button className="btn-pay-fastech" onClick={procesarPago}>Proceder al Pago</button>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    )}
+                </div>
+            )}
+
+            <a href="/" className="nav-link-btn logout-btn" onClick={() => localStorage.clear()}>🚪 Salir</a>
           </div>
         </nav>
 
         <div className="dashboard-header-section">
-          <h2>Bienvenida, {localStorage.getItem('userName') || 'Sheila'}</h2>
-          <span className="admin-badge">{localStorage.getItem('userRole') || 'admin'}</span>
-        </div>
-
+  {/* Cambiamos el saludo aquí */}
+  <h2>Bienvenid@ {localStorage.getItem('userName') || 'Fastech'}</h2>
+  <span className="admin-badge">{userRole}</span>
+</div>
         {alerta.mostrar && (
             <div className={`fastech-sistema-alerta alert-${alerta.tipo}`} style={{ margin: '0 40px 20px 40px' }}>
                 <div className="alert-icon-box">{alerta.tipo === 'exito' ? '✅' : '⚠️'}</div>
-                <div className="alert-text-box">{alerta.mensaje}</div>
+                {/* Forzamos color oscuro para el texto de la alerta si su fondo es claro */}
+                <div className="alert-text-box" style={{ color: '#0f172a' }}>{alerta.mensaje}</div>
             </div>
         )}
 
-        {idEdicion !== null && (
+        {/* MODO PANEL DE EDICIÓN (ADMIN) */}
+        {idEdicion !== null && userRole === 'admin' && (
             <div className="dashboard-edit-panel" style={{ margin: '0 40px 25px 40px', padding: '20px', background: '#f8fafc', borderRadius: '15px', border: '1px solid #e2e8f0' }}>
                 <h4 style={{ margin: '0 0 15px 0', color: '#1e293b' }}>⚙️ Modo Edición Activo: Modificando Producto</h4>
                 <form onSubmit={handleActualizarProducto} style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
@@ -229,25 +267,79 @@ function Dashboard() {
             </div>
         )}
 
-        <div className="items-products-grid">
-          {productos.map((producto) => (
-            <div className="single-product-card" key={producto.id}>
-              <div className="card-image-box">
-                <img src={producto.imagen} alt={producto.nombre} />
-              </div>
-              <div className="card-content-details">
-                <h3>{producto.nombre}</h3>
-                <p className="price-tag">${producto.precio}</p>
-                <div className="card-buttons-wrapper">
-                  <button className="action-btn-view" onClick={() => abrirDetalles(producto)}>Ver</button>
-                  <button className="action-btn-edit" onClick={() => iniciarEdicion(producto)}>Editar</button>
-                  {/* ⭐ MODIFICADO: Llama al modal formal */}
-                  <button className="action-btn-delete" onClick={() => solicitarEliminacion(producto)}>Eliminar</button>
+        {/* INTERCAMBIO DE VISTAS (TIENDA VS PEDIDOS) */}
+        {vistaActual === 'tienda' ? (
+            <div className="items-products-grid">
+              {productos.map((producto) => (
+                <div className="single-product-card" key={producto.id}>
+                  <div className="card-image-box">
+                    <img src={producto.imagen} alt={producto.nombre} />
+                  </div>
+                  <div className="card-content-details">
+                    <h3>{producto.nombre}</h3>
+                    <p className="price-tag">${producto.precio}</p>
+                    <div className="card-buttons-wrapper">
+                      <button className="action-btn-view" onClick={() => abrirDetalles(producto)}>Ver</button>
+                      
+                      {/* Si es cliente, ve el botón de Comprar / Agregar */}
+                      {userRole !== 'admin' && (
+                        <button className="action-btn-buy" onClick={() => agregarAlCarrito(producto)}>🛒 Añadir</button>
+                      )}
+                      
+                      {/* Si es admin, ve Editar y Eliminar */}
+                      {userRole === 'admin' && (
+                        <>
+                          <button className="action-btn-edit" onClick={() => iniciarEdicion(producto)}>Editar</button>
+                          <button className="action-btn-delete" onClick={() => solicitarEliminacion(producto)}>Eliminar</button>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
+        ) : (
+            /* VISTA DE HISTORIAL DE PEDIDOS HECHOS */
+            /* VISTA DE HISTORIAL DE PEDIDOS HECHOS OPTIMIZADA */
+            <div className="orders-history-container">
+                <h3 className="orders-title">📋 Historial de tus Pedidos Realizados</h3>
+                {pedidos.length === 0 ? (
+                    <p style={{ color: '#64748b', textAlign: 'center', marginTop: '40px' }}>
+                        Aún no has realizado ninguna compra en Fastech.
+                    </p>
+                ) : (
+                    pedidos.map((pedido) => (
+                        <div className="order-history-card" key={pedido.id}>
+                            <div className="order-card-header">
+                                <span className="order-id-label">
+                                    Código de Orden: <strong>#{pedido.id}</strong>
+                                </span>
+                                <span className="order-date-label">🗓️ {pedido.fecha}</span>
+                            </div>
+                            
+                            <div className="order-items-list">
+                                {pedido.articulos.map((art, i) => (
+                                    <div className="order-item-row" key={i}>
+                                        <span className="order-item-name">📦 {art.nombre}</span>
+                                        <span className="order-item-price">${art.precio}</span>
+                                    </div>
+                                ))}
+                            </div>
+                            
+                            <div className="order-card-footer">
+                                <div className="order-status-badge">
+                                    <span className="order-status-dot"></span>
+                                    Estado: Pagado
+                                </div>
+                                <span className="order-total-label">
+                                    Total Facturado: <strong className="order-total-amount">${pedido.total}</strong>
+                                </span>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
+        )}
 
         {/* Ventana Modal de Detalles */}
         {showModal && selectedProducto && (
@@ -265,15 +357,21 @@ function Dashboard() {
                   <hr />
                   <h4>Especificaciones Técnicas:</h4>
                   <p className="modal-description-text">{selectedProducto.descripcion}</p>
-                  <button className="modal-action-btn" onClick={cerrarModal}>Cerrar Vista de Detalles</button>
+                  
+                  <div style={{ display: 'flex', gap: '10px', marginTop: '15px' }}>
+                     {userRole !== 'admin' && (
+                        <button className="modal-action-btn" style={{ background: '#10b981' }} onClick={() => { agregarAlCarrito(selectedProducto); cerrarModal(); }}>Añadir al Carrito</button>
+                     )}
+                     <button className="modal-action-btn" onClick={cerrarModal}>Cerrar</button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* ⭐ NUEVO: VENTANA FLOTANTE FORMAL DE CONFIRMACIÓN DE ELIMINACIÓN */}
-        {showConfirmDelete && productoAEliminar && (
+        {/* Modal confirmación borrado */}
+        {showConfirmDelete && productoAEliminar && userRole === 'admin' && (
             <div className="fastech-formal-modal-overlay">
                 <div className="fastech-formal-modal-box">
                     <div className="fastech-formal-modal-header text-danger">
@@ -302,4 +400,4 @@ function Dashboard() {
     );
 }
 
-export default Dashboard;
+export default Dashboard;  

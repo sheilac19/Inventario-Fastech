@@ -28,12 +28,12 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-<div className="login-icon">
+< div className="login-icon">
   <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="16 18 22 12 16 6"></polyline>
     <polyline points="8 6 2 12 8 18"></polyline>
   </svg>
-</div>
+</>
 
 .login-box h1 {
   color: #1e293b;
@@ -903,3 +903,733 @@
     object-fit: cover; /* Esto es clave para que todas se vean iguales */
     border-radius: 8px;
 }
+
+/* ==========================================
+   BARRA DE NAVEGACIÓN PROFESIONAL (HEADER)
+   ========================================== */
+.main-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0b1329; /* Fondo oscuro premium */
+    padding: 15px 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-logo {
+    font-size: 24px;
+    font-weight: 800;
+    color: #00b4d8; /* Tu celeste característico */
+    letter-spacing: 1.5px;
+}
+
+/* Contenedor principal de enlaces (Alineados en una sola fila) */
+.navbar-menu-links {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Distancia horizontal uniforme entre botones */
+}
+
+/* Estilo unificado para los enlaces/botones del menú */
+.nav-link-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.nav-link-btn:hover, .nav-link-btn.active {
+    color: #ffffff;
+    background-color: #1e293b;
+}
+
+.logout-btn {
+    color: #f1aaae;
+}
+.logout-btn:hover {
+    background-color: #451a1c;
+    color: #f87171;
+}
+
+/* ==========================================
+   DROPDOWN DEL CARRITO (MODERNO Y FLOTANTE)
+   ========================================== */
+.cart-container-menu {
+    position: relative;
+}
+
+.cart-badge-count {
+    background-color: #00b4d8;
+    color: #0b1329;
+    font-weight: bold;
+    padding: 2px 7px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.cart-dropdown-box {
+    position: absolute;
+    right: 0;
+    top: 45px;
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    padding: 20px;
+    border-radius: 12px;
+    width: 320px;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.4);
+    z-index: 1000;
+    color: #f8fafc;
+}
+
+.cart-dropdown-box h4 {
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 8px;
+    color: #00b4d8;
+}
+
+.cart-items-scroll {
+    max-height: 220px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    padding-right: 5px;
+}
+
+/* Estilizar barra de scroll interna del carrito */
+.cart-items-scroll::-webkit-scrollbar { width: 5px; }
+.cart-items-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+.cart-dropdown-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    padding: 8px 0;
+    border-bottom: 1px solid #1e293b;
+}
+
+.btn-remove-item {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0 5px;
+    transition: color 0.2s;
+}
+.btn-remove-item:hover { color: #f87171; }
+
+.cart-dropdown-footer {
+    border-top: 1px solid #334155;
+    padding-top: 12px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+
+.btn-pay-fastech {
+    width: 100%;
+    background-color: #10b981;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+.btn-pay-fastech:hover { background-color: #059669; }
+
+/* ==========================================
+   TARJETAS DE PRODUCTOS Y BOTÓN AÑADIR
+   ========================================== */
+.card-buttons-wrapper {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+/* El botón Ver toma el 50% y tu botón Añadir el otro 50% perfectamente nivelados */
+.action-btn-view, .action-btn-buy {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+/* Botón Ver (Celeste suave) */
+.action-btn-view {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+.action-btn-view:hover { background-color: #bae6fd; }
+
+/* Botón Añadir al Carrito (Diseño Premium Azul Eléctrico/Cian) */
+.action-btn-buy {
+    background-color: #00b4d8;
+    color: #0b1329;
+}
+.action-btn-buy:hover {
+    background-color: #0096c7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 180, 216, 0.3);
+}
+
+/* ==========================================
+   HISTORIAL DE PEDIDOS PREMIUM - FASTECH
+   ========================================== */
+.orders-history-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Busca esta clase y actualízala así: */
+.orders-title {
+  font-size: 22px;
+  color: #ffffff; /* 🔥 CAMBIADO A BLANCO PARA QUE SE VEA EN TU FONDO OSCURO */
+  font-weight: 700;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Tarjeta principal del pedido */
+.order-history-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.order-history-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Encabezado interno de la tarjeta */
+.order-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.order-id-label {
+    font-size: 16px;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.order-id-label strong {
+    color: #00b4d8; /* Resalta el número de orden con tu cian */
+}
+
+.order-date-label {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* Lista de artículos comprados */
+.order-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 4px 0;
+}
+
+.order-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+}
+
+.order-item-name {
+    font-size: 15px;
+    color: #334155;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.order-item-price {
+    font-size: 15px;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+/* Pie de la tarjeta (Total y Estado) */
+.order-card-footer {
+    border-top: 1px solid #f1f5f9;
+    margin-top: 16px;
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Badge de Estado: Pagado con estilo moderno píldora */
+.order-status-badge {
+    background-color: #d1fae5;
+    color: #065f46;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.order-status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #10b981;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.order-total-label {
+    font-size: 15px;
+    color: #475569;
+}
+
+.order-total-amount {
+    font-size: 18px;
+    color: #0f172a;
+    font-weight: 700;
+    margin-left: 6px;
+}
+
+
+/* ==========================================
+   PANEL DE INICIO - MODO OSCURO PREMIUM
+   ========================================== */
+
+/* Contenedor principal de toda la vista */
+.dashboard-view-container {
+    background-color: #0b1329; /* Fondo oscuro profundo a juego con la navbar */
+    min-height: 100vh;
+    color: #f8fafc; /* Texto claro por defecto */
+    padding-bottom: 40px;
+}
+
+/* Sección del título de bienvenida */
+.dashboard-header-section h2 {
+    color: #ffffff; /* Texto de bienvenida en blanco puro */
+    font-weight: 700;
+}
+
+/* Ajuste de las Tarjetas de Producto para el modo oscuro */
+.single-product-card {
+    background-color: #1e293b; /* Fondo gris oscuro azulado para las tarjetas */
+    border: 1px solid #334155; /* Borde sutil para dar definición */
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.single-product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+    border-color: #00b4d8; /* Brillo cian al pasar el cursor */
+}
+
+/* Títulos de los productos dentro de la tarjeta */
+.card-content-details h3 {
+    color: #ffffff;
+    font-size: 18px;
+    margin: 12px 0 6px 0;
+}
+
+/* Etiqueta de precio */
+.price-tag {
+    color: #38bdf8; /* Un celeste brillante e iluminado para resaltar el costo */
+    font-size: 16px;
+    font-weight: 700;
+}
+/* ==========================================
+   PANEL DE INVENTARIO - DARK MODE PREMIUM
+   ========================================== */
+.admin-inventory-container {
+    background-color: #0b1329; /* Fondo maestro oscuro profundo */
+    min-height: 100vh;
+    color: #f8fafc;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.inventory-dashboard-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+.inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #1e293b;
+    padding-bottom: 20px;
+}
+
+.inventory-header h2 {
+    font-size: 26px;
+    color: #ffffff;
+    margin: 0;
+}
+
+.inventory-header .subtitle {
+    color: #94a3b8;
+    margin: 5px 0 0 0;
+    font-size: 14px;
+}
+
+/* Contador de Productos Rediseñado */
+.total-badge-box {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+.badge-count-num {
+    color: #00b4d8;
+    font-size: 18px;
+    font-weight: 800;
+    margin-left: 5px;
+}
+
+/* Estructura de herramientas en Grid */
+.inventory-tools-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 25px;
+    margin-bottom: 35px;
+}
+
+@media (max-width: 900px) {
+    .inventory-tools-grid { grid-template-columns: 1fr; }
+}
+
+.section-small-label {
+    display: block;
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* Buscador */
+.inventory-input-search {
+    width: 100%;
+    padding: 14px 20px;
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    color: white;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+.inventory-input-search:focus {
+    border-color: #00b4d8;
+    outline: none;
+}
+
+/* Tarjeta del Formulario de Registro */
+.inventory-form-card {
+    background-color: #111a36;
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.inventory-form-card h3 {
+    margin: 0 0 15px 0;
+    color: #00b4d8;
+    font-size: 16px;
+}
+
+.inventory-grid-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+.input-field-group {
+    flex: 1;
+    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-field-group label {
+    font-size: 12px;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.input-field-group input {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.input-field-group input:focus {
+    border-color: #00b4d8;
+    outline: none;
+}
+
+.form-action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-submit-inventory {
+    background-color: #00b4d8;
+    color: #0b1329;
+    font-weight: 700;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+.btn-submit-inventory:hover {
+    background-color: #0096c7;
+    transform: translateY(-1px);
+}
+
+.btn-cancel-inventory {
+    background-color: #475569;
+    color: white;
+    border: none;
+    padding: 11px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+/* ==========================================
+   TABLA DE INVENTARIO PROFESIONAL
+   ========================================== */
+.table-responsive-wrapper {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
+}
+
+.fastech-premium-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.fastech-premium-table th {
+    background-color: #0f172a;
+    color: #94a3b8;
+    padding: 16px 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+.fastech-premium-table td {
+    padding: 16px 24px;
+    border-bottom: 1px solid #334155;
+    color: #cbd5e1;
+}
+
+.fastech-premium-table tr:last-child td { border-bottom: none; }
+.fastech-premium-table tr:hover td { background-color: #243147; }
+
+.product-cell-name {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.product-cell-name strong { color: white; font-size: 15px; }
+.product-id-sub { color: #64748b; font-size: 11px; }
+
+.price-cell-color { color: #38bdf8; font-weight: 600; }
+
+/* Píldoras de estado del Stock */
+.stock-status-indicator {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+.stock-ok { background-color: rgba(16, 185, 129, 0.15); color: #10b981; }
+.stock-low { background-color: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+/* Botones de acción en filas */
+.actions-cell-gap { display: flex; gap: 8px; justify-content: flex-end; }
+.table-btn-edit, .table-btn-delete {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s;
+}
+.table-btn-edit { background-color: #334155; color: #e2e8f0; }
+.table-btn-edit:hover { background-color: #475569; }
+.table-btn-delete { background-color: rgba(239, 68, 68, 0.15); color: #f87171; }
+.table-btn-delete:hover { background-color: #ef4444; color: white; }
+
+.empty-table-text { text-align: center; color: #64748b; padding: 40px !important; }
+
+/* ==========================================
+   MODAL FLOTANTE DE CONFIRMACIÓN DE BORRADO
+   ========================================== */
+.fastech-formal-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.fastech-formal-modal-box {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    width: 450px;
+    padding: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    color: #f8fafc;
+}
+
+.fastech-formal-modal-header {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ef4444;
+    margin-bottom: 15px;
+}
+
+.fastech-formal-modal-body p {
+    font-size: 14px;
+    color: #cbd5e1;
+    line-height: 1.5;
+}
+
+.fastech-formal-blockquote {
+    background-color: #0f172a;
+    border-left: 4px solid #ef4444;
+    margin: 15px 0;
+    padding: 12px;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.fastech-formal-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.fastech-btn-modal-cancel {
+    background-color: #475569;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.fastech-btn-modal-confirm {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.fastech-btn-modal-confirm:hover { background-color: #dc2626; }
+
+/* ==========================================
+   PANEL DE EDICIÓN RÁPIDA EN EL DASHBOARD
+   ========================================== */
+.dashboard-edit-panel {
+    margin: 0 40px 25px 40px;
+    padding: 24px;
+    background-color: #111a36 !important; /* Oscuro premium */
+    border-radius: 16px;
+    border: 1px solid #1e293b !important;
+}
+
+.dashboard-edit-panel h4 {
+    color: #00b4d8 !important; /* Tu cian distintivo */
+    font-weight: 600;
+}
+
+.dashboard-edit-panel input {
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important;
+    color: #ffffff !important;
+}
+
