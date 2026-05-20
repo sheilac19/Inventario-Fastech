@@ -1,70 +1,54 @@
-# Getting Started with Create React App
+# 🚀 Fastech - Sistema de Gestión Empresarial (ERP)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Fastech es una solución integral de software diseñada para la administración y control de inventarios empresariales. Este sistema centraliza la gestión de productos, permitiendo a los administradores mantener un catálogo actualizado, realizar operaciones de mantenimiento (CRUD) y obtener una visión clara del stock disponible con una interfaz moderna y responsiva.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 📸 Galería del Sistema
 
-### `npm start`
+Aquí puedes visualizar el diseño y la funcionalidad del sistema:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 1. Login de sesion (Administradores - Usuarios)
+![Dashboard de Inicio]()
+### 1. Panel de Inicio (Dashboard)
+El centro de control donde se visualizan los productos activos con una interfaz de tarjetas modernas.
+*(Inserta aquí tu imagen de las tarjetas del dashboard)*
+![Dashboard de Inicio](URL_DE_TU_IMAGEN_AQUI)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 2. Gestión de Inventario (Administración)
+Tabla avanzada con herramientas de búsqueda, edición y eliminación de productos en tiempo real.
+*(Inserta aquí tu imagen de la tabla de inventario)*
+![Gestión de Inventario](URL_DE_TU_IMAGEN_AQUI)
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠️ Especificaciones Técnicas
 
-### `npm run build`
+### Arquitectura
+El proyecto sigue un patrón **Cliente-Servidor**:
+* **Frontend:** Desarrollado en **React.js**. Utiliza hooks (`useState`, `useEffect`) para la manipulación de estados y una comunicación fluida con la API.
+* **Backend:** Servidor en **Node.js** con **Express**, gestionando las peticiones HTTP y la lógica de negocio.
+* **Base de Datos:** **MariaDB/MySQL**, donde reside toda la persistencia de datos (productos, precios y stock).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Flujo de Datos
+El sistema utiliza peticiones asíncronas (`fetch` / `async-await`) para asegurar que la interfaz de usuario no se bloquee mientras se procesan los datos en el servidor, garantizando una experiencia de usuario rápida y fluida.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🌟 Funcionalidades Clave
 
-### `npm run eject`
+* **CRUD Completo:** Creación, Lectura, Actualización y Eliminación de productos con validaciones de seguridad.
+* **Validación de Datos:** Sistema de alertas personalizadas para evitar errores de entrada (precios negativos, campos vacíos, etc.).
+* **Búsqueda Dinámica:** Filtrado de productos en tiempo real a medida que el usuario escribe.
+* **Diseño UI/UX "Dark Mode":** Estilos CSS enfocados en la legibilidad y la estética profesional, utilizando efectos de *blur* y *glassmorphism*.
+* **Confirmación de Seguridad:** Ventanas modales integradas antes de realizar operaciones destructivas (borrado de datos).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📦 Guía de Instalación
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Para ejecutar el sistema en tu entorno local:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. **Clonar el repositorio:**
+   ```bash
+   git clone [https://github.com/TU_USUARIO/fastech.git](https://github.com/TU_USUARIO/fastech.git)
