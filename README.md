@@ -9,11 +9,11 @@ Fastech es una solución integral de software diseñada para la administración 
 Aquí puedes visualizar el diseño y la funcionalidad del sistema:
 
 ### 1. Login de sesion (Administradores - Usuarios)
-![Dashboard de Inicio]()
+![Login](test/public/img/login_de_sesion.png)
 ### 1. Panel de Inicio (Dashboard)
 El centro de control donde se visualizan los productos activos con una interfaz de tarjetas modernas.
 *(Inserta aquí tu imagen de las tarjetas del dashboard)*
-![Dashboard de Inicio](URL_DE_TU_IMAGEN_AQUI)
+![Dashboard de Inicio](public/img/)
 
 ### 2. Gestión de Inventario (Administración)
 Tabla avanzada con herramientas de búsqueda, edición y eliminación de productos en tiempo real.
